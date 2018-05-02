@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Simon Game</title>
+</head>
+<link rel="stylesheet" href="css/style.css">
+
+<body>
+    <div class="container">
+        <div class="name level hide">LEVEL <span id="real-level">0</span></div>
+        <div class="name score hide">Score <span id="real-score">0</span></div>
+    </div>
+    <div class="container">
+        <div onclick="buttonPressed(0)" class="circle red"></div>
+        <div onclick="buttonPressed(1)" class="circle blue"></div>
+        <div onclick="buttonPressed(2)" class="circle green"></div>
+        <div onclick="buttonPressed(3)" class="circle yellow"></div>
+    </div>
+    <div class="container">
+        <button class="button start" onclick="start()">Start</button>
+        <button class="button stop" onclick="save()">Save and Exit</button>
+    </div>
+</body>
+<script src="js/script.js"></script>
+
+</html>
