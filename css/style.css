@@ -1,3 +1,7 @@
+body {
+    background-color: black;
+}
+
 .container {
     padding: 20px;
     display: flex;
@@ -6,6 +10,7 @@
 
 .name {
     font-size: xx-large;
+    color: white;
 }
 
 .level {
@@ -20,6 +25,8 @@
     padding: 10px;
     border-radius: 5px;
     margin: 10px;
+    font-size: large;
+    cursor: pointer;
 }
 
 .circle {
@@ -47,7 +54,7 @@
 }
 
 .hide {
-    display: none;
+    visibility: hidden;
 }
 
 .show {

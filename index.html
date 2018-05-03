@@ -5,24 +5,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Simon Game</title>
+    <title>Simon Says Game</title>
 </head>
 <link rel="stylesheet" href="css/style.css">
 
 <body>
+    <!-- Level and Score -->
     <div class="container">
-        <div class="name level hide">LEVEL <span id="real-level">0</span></div>
+        <div class="name name hide">Hello, <span id="real-name">X</span></div>
+        <div class="name level hide">Level <span id="real-level">0</span></div>
         <div class="name score hide">Score <span id="real-score">0</span></div>
     </div>
+    <!-- circles with different colors-->
     <div class="container">
-        <div onclick="buttonPressed(0)" class="circle red"></div>
-        <div onclick="buttonPressed(1)" class="circle blue"></div>
-        <div onclick="buttonPressed(2)" class="circle green"></div>
-        <div onclick="buttonPressed(3)" class="circle yellow"></div>
+        <div class="circle red" onclick="buttonPressed(0)"></div>
+        <div class="circle blue" onclick="buttonPressed(1)"></div>
+        <div class="circle green" onclick="buttonPressed(2)"></div>
+        <div class="circle yellow" onclick="buttonPressed(3)"></div>
     </div>
+    <!-- Start and Stop buttons -->
     <div class="container">
-        <button class="button start" onclick="start()">Start</button>
-        <button class="button stop" onclick="save()">Save and Exit</button>
+        <button class="button start" onclick="startBtn()">Start New Game</button>
+        <button class="button previous hide" onclick="loadPreviousGameBtn()">Load Previous Game</button>
+        <button class="button save hide" onclick="saveBtn()">Save</button>
     </div>
 </body>
 <script src="js/script.js"></script>
