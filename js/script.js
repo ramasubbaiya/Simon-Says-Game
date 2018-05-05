@@ -14,6 +14,18 @@ const COLOR_NAMES = [
     'yellow' // yellow
 ];
 
+const COLORS_SIZE = COLOR_NAMES.length - 1;
+
+// each level increment the blink
+// Right now 0, which means no. of circles that blinks for each level is equal to level
+// ex. 1 level - blink 1 circle
+const BLINK_INCREMENT_PER_LEVEL = 0;
+
+// change the delay for each circle color
+const BLINK_COLOR_DURATION = 300;
+
+const BLINK_INTERVAL = 800;
+
 // Declare and initiate user name, score and level
 let userName = 'X'; // player name
 let userScore = 0; // player score
@@ -27,6 +39,12 @@ const colorElements = document.querySelectorAll('.circle'); // Select all circle
 /**
  * ************ Game Logic ************
  */
+
+const askUserName = function() {
+    let name = prompt('Please enter your name');
+    console.log(name);
+    userName = (name !== null) ? (name.trim().length > 0 ? name : 'X') : 'X';
+}
 
 const incrementLevelAndCreateNewSeq = function() {
     incrementTheLevel();
@@ -50,8 +68,7 @@ const buttonPressed = function(color) {
             } else {
                 count++;
                 incrementTheScore();
-                // blink the color
-                blinkCircle(color);
+                blinkCircle(color); // blink the color
             }
         } else {
             alert(`Game Over \nYour Final score is ${userScore}`);
@@ -67,12 +84,12 @@ const blinkCircle = function(colorCode) {
     colorElements[colorCode].style.backgroundColor = COLOR_NAMES[colorCode];
     setTimeout(function() {
         colorElements[colorCode].style.backgroundColor = 'transparent';
-    }, 70);
+    }, BLINK_COLOR_DURATION);
 }
 
 const blinkColorInSequence = function() {
     for (let i = 0; i < currentSequence.length; i++) {
-        setTimeout(function() { return blinkCircle(currentSequence[i]) }, i * 800);
+        setTimeout(function() { return blinkCircle(currentSequence[i]) }, i * BLINK_INTERVAL);
     }
 }
 
@@ -90,10 +107,10 @@ const randomInt = function(minimum, maximum) {
 }
 
 const generateRandomSequenceByLevel = function() {
-    let arrSize = userLevel + 1;
+    let arrSize = userLevel + BLINK_INCREMENT_PER_LEVEL;
     currentSequence = []; // sequence globally available
     for (let i = 0; i < arrSize; i++) {
-        currentSequence.push(randomInt(0, 3));
+        currentSequence.push(randomInt(0, COLORS_SIZE));
     }
 }
 
@@ -125,20 +142,27 @@ const getPreviousGamesData = function() {
  * ************ UI changes ************
  */
 // shoe name, score, level buttons
-const showNameScoreLevel = function() {
+const showNameScoreLevel = function(isNewGame) {
+
     let scoreEle = document.querySelector('.score');
     scoreEle.classList.replace('hide', 'show');
     let score = document.querySelector('#real-score');
-    score.innerText = userScore;
 
     let levelEle = document.querySelector('.level');
     levelEle.classList.replace('hide', 'show');
     let level = document.querySelector('#real-level');
-    level.innerText = userLevel;
 
     let nameEle = document.querySelector('.name');
     nameEle.classList.replace('hide', 'show');
     let name = document.querySelector('#real-name');
+
+    if (isNewGame) {
+        userScore = 0; //initialize to score to zero
+        userLevel = 0; //initialize to level to zero
+    }
+
+    score.innerText = userScore;
+    level.innerText = userLevel;
     name.innerText = userName;
 }
 
@@ -162,12 +186,8 @@ const startBtn = function() {
     let start = document.querySelector('.start');
     start.classList.add('hide');
 
-    // reset user score, name and level - to start new game
-    userLevel = 0;
-    userScore = 0;
-    userName = 'X';
-
-    showNameScoreLevel();
+    askUserName();
+    showNameScoreLevel(true);
     showSaveBtn();
     // increment the level and start the game
     incrementLevelAndCreateNewSeq();
@@ -184,7 +204,8 @@ const loadPreviousGameBtn = function() {
     let previous = document.querySelector('.previous');
     previous.classList.replace('show', 'hide');
 
-    showNameScoreLevel();
+    // getPreviousGamesData - this is already called
+    showNameScoreLevel(false);
     showSaveBtn();
     // Generate new sequence and start the game
     generateRandomSequenceByLevel();
@@ -193,10 +214,9 @@ const loadPreviousGameBtn = function() {
 
 // save button
 const saveBtn = function() {
-    let score = document.querySelector('#real-score').innerText;
-    localStorage.setItem('score', score);
-    let level = document.querySelector('#real-level').innerText;
-    localStorage.setItem('level', level);
+    localStorage.setItem('score', userScore);
+    localStorage.setItem('level', userLevel);
+    localStorage.setItem('name', userName);
 
     let save = document.querySelector('.save');
     save.classList.replace('show', 'hide');
